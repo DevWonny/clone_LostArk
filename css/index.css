@@ -59,13 +59,12 @@
   position : relative;
   background-color: bisque;
 }
-.scroll-section-1{
+#scroll-section-1{
   width : 100%;
-  height : 50vh;
 }
-.scroll-section-1 h1,
-.scroll-section-1 h4,
-.scroll-section-1 h5{
+#scroll-section-1 h1,
+#scroll-section-1 h4,
+#scroll-section-1 h5{
   position : absolute;
   right : 10%;
   top : 10%;
@@ -109,4 +108,83 @@
   position : relative;
   left : -80px;
 }
+/* static-section */
 
+#scroll-section-2{
+  position : relative;
+  background-color: #d4cfc5;
+}
+.mid-message{
+  width : 80%;
+  height : 150px;
+  margin-left : 10%;
+  padding-top : 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mid-message small{
+  font-size  :1.3rem;
+  color : #212227;
+}
+.mid-message strong{
+  font-size : 6rem;
+}
+.canvas-caption{
+  width : 80%;
+  margin-left : 10%;
+  font-size : 1.3rem;
+  color : #212227;
+  padding-bottom : 50px;
+}
+.canvas-caption strong{
+  display: inline-block;
+  font-size : 2rem;
+  margin-bottom : 10px;
+}
+.canvas-caption small{
+  display: inline-block;
+  font-size : 1.5rem;
+  color : #4f4390;
+  margin-bottom : 5px;
+}
+/* scroll-section-2 */
+
+footer{
+  width : 100%;
+  height : 50px;
+  background-color: #212227;
+  color : #fff;
+  text-align: center;
+  line-height: 50px;
+}
+/* footer */
+
+.top-button{
+  width : 50px;
+  height : 50px;
+  border-radius: 50%;
+  border : 3px solid #4f4390;
+  box-sizing: border-box;
+  position : fixed;
+  right : 2%;
+  bottom : 6%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.top-button:hover{
+  border : none;
+  box-sizing: border-box;
+  background-color: #4f4390;
+}
+.top-button:hover .material-icons{
+  color : #212227;
+}
+.top-button .material-icons{
+  font-size : 30px;
+  font-weight: 600;
+  color : #4f4390;
+}
+/* top-button */

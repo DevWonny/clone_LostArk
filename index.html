@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LOSTARK - Artist</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/index.css">
 </head>
@@ -18,23 +19,24 @@
     <!-- global-nav -->
 
     <div class="local-nav">
-      <a href="javascript:void(0)" class="class-logo"></a>
+      <div class="class-logo"></div>
       <ul class="main-menu">
         <li class="menu">menu1</li>
         <li class="menu">menu2</li>
         <li class="menu">menu3</li>
-        <li class="menu">menu4</li>
       </ul>
     </div>
     <!-- local-nav -->
 
     <!-- header -->
 
-    <section class="scroll-section scroll-section-1">
+    <section class="scroll-section" id="scroll-section-1">
+      <canvas id="video-canvas-1" width="1920" height="1080"></canvas>
       <h1>ARTIST</h1>
       <h4>도화가</h4>
       <h5>"그릴 거야, 너와 모두를 지키기 위해&CenterDot;&CenterDot;&CenterDot;"</h5>
     </section>
+    <!-- scroll-section-1 -->
 
     <section class="static-section">
       <div class="left-static"></div>
@@ -53,31 +55,39 @@
           allowfullscreen></iframe>
       </div>
     </section>
+    <!-- static-section -->
 
-    <section class="scroll-section">
+    <section class="scroll-section" id="scroll-section-2">
       <p class="mid-message">
-        <small>환영을 다루는 전략가</small>
+        <small>환영을 다루는 전략가</small><br/>
         <strong>도화가</strong>
       </p>
+
+      <canvas class="image-blend-canvas" width="1920" height="1080"></canvas>
       
-      <p class="canvas-caption">
-        <strong>IDENTITY</strong>
-        <strong>저무는 달 / 떠오르는 해</strong>도화가는 적에게 스킬을 적중 시킬 때마다 조화 게이지를 획득할 수 있고 가득 채울 경우 조화의 구슬을 최대 3개까지 생성합니다.
-        이후 조화의 구슬을 소모하며 저무는 달 및 떠오르는 해를 사용할 수 있습니다. 저무는 달 스킬은 필법의 힘으로 즉시 파티원 다수를 강화시킬 수 있고,
+      <p class="canvas-caption">  
+        <strong>IDENTITY</strong><br/>
+        <small>저무는 달 / 떠오르는 해</small><br/>
+        도화가는 적에게 스킬을 적중 시킬 때마다 조화 게이지를 획득할 수 있고 가득 채울 경우<br/>
+        조화의 구슬을 최대 3개까지 생성합니다.<br/>
+        이후 조화의 구슬을 소모하며 저무는 달 및 떠오르는 해를 사용할 수 있습니다.<br/>
+        저무는 달 스킬은 필법의 힘으로 즉시 파티원 다수를 강화시킬 수 있고,<br/>
         떠오르는 해 스킬은 묵법의 힘으로 단일 파티원의 체력을 회복시키는 해 구슬을 만들어내는 기술입니다.
       </p>
-
-
     </section>
+    <!-- scroll-section-2 -->
 
     <!-- section -->
 
     <footer>&copy;Wonny2022</footer>
     <!-- footer -->
 
+    <div class="top-button">
+      <i class="material-icons">arrow_upward</i>
+    </div>
   </div>
   <!-- container -->
 
 </body>
-
+<script src="js/index.js"></script>
 </html>
