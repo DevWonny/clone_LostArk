@@ -35,6 +35,9 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top : 0;
+  left : 0;
 }
 .main-logo{
   display: block;
@@ -52,6 +55,14 @@ a{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position : absolute;
+  top : 50px;
+  left : 0;
+}
+.bot-header-sticky .bot-header{
+  position : fixed;
+  top : 0;
+  z-index: 9;
 }
 .class-logo{
   display: block;
