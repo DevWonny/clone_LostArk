@@ -1,13 +1,8 @@
 (() => {
-  let yOffset = 0; // window.pageYOffset 대신 사용할 변수
-  let prevScrollHeight = 0; // 현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
-  let currentScene = 0; // 현재 활성화된(눈 앞에 보고있는) 씬(scroll-section)
-  let enterNewScene = false; // 새로운 scene이 시작되는 순간 true로 변경
-  // 부드러운 Animation 역할을 위한 변수 지정
-  let acc = 0.1;
-  let delayedYOffset = 0;
-  let rafId;
-  let rafState;
+  let yOffset = 0;
+  let prevScrollHeight = 0;
+  let currentScene = 0;
+  let enterNewScene = false;
 
   const info = [
     {
@@ -17,16 +12,16 @@
       scrollHeight: 0,
       objs: {
         container: document.querySelector("#scroll-section-0"),
-        messageA: document.querySelector("#scroll-section-0 .main-message.a"),
-        messageB: document.querySelector("#scroll-section-0 .main-message.b"),
-        messageC: document.querySelector("#scroll-section-0 .main-message.c"),
+        messageA: document.querySelector(".main-message.a"),
+        messageB: document.querySelector(".main-message.b"),
+        messageC: document.querySelector(".main-message.c"),
         canvas: document.querySelector("#video-canvas-0"),
         context: document.querySelector("#video-canvas-0").getContext("2d"),
         videoImages: []
       },
       values: {
         videoImageCount: 480,
-        imageSequence: [0, 479],
+        imageSequence: 479,
         canvas_opacity: [1, 0, { start: 0.9, end: 1 }],
         messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
         messageB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
@@ -48,8 +43,8 @@
       type: "normal",
       scrollHeight: 0,
       objs: {
-        container : document.querySelector("#scroll-section-1"),
-      },
+        container: document.querySelector("#scroll-section-1"),
+      }
     },
 
     {
@@ -63,7 +58,7 @@
         canvas: document.querySelector(".image-blend-canvas"),
         context: document.querySelector(".image-blend-canvas").getContext("2d"),
         imagesPath: ["../image/blend-image-1.jpg", "../image/blend-image-2.png"],
-        images:[]
+        images: [],
       },
       values: {
         rect1X: [0, 0, { start: 0, end: 0 }],
@@ -73,9 +68,9 @@
         canvasCaption_opacity: [0, 1, { start: 0, end: 0 }],
         canvasCaption_translateY: [20, 0, {start: 0, end: 0}],
         rectStartY: 0,
-      }
+      },
     }
-  ]
+  ];
   // info
 
   function setLayout() {
@@ -86,32 +81,128 @@
         info[i].scrollHeight = info[i].objs.container.offsetHeight;
       }
 
-      info[i].objs.container.style.height = `${info[i].scrollHeight}px`;
+      info[i].objs.container.style.height = `${info[i].scrollHeight}px`
     }
+
+    let totalScrollHeight = 0;
+    yOffset = window.pageYOffset;
+    for (let i = 0; i < info.length; i++){
+      totalScrollHeight += info[i].scrollHeight;
+      if (totalScrollHeight >= yOffset) {
+        currentScene = i;
+        break;
+      }
+    }
+    document.body.setAttribute("id", `show-scroll-section-${currentScene}`);
   }
   // setLayout
 
   function scrollLoop() {
+    enterNewScene = false;
     prevScrollHeight = 0;
-
     for (let i = 0; i < currentScene; i++){
       prevScrollHeight += info[i].scrollHeight;
     }
 
     if (yOffset > prevScrollHeight + info[currentScene].scrollHeight) {
-      currentScene ++;
+      enterNewScene = true;
+      currentScene++;
+      document.body.setAttribute("id", `show-scroll-section-${currentScene}`);
     }
     if (yOffset < prevScrollHeight) {
+      enterNewScene = true;
       if (currentScene === 0) return;
       currentScene--;
+      document.body.setAttribute("id", `show-scroll-section-${currentScene}`);
     }
-    document.body.setAttribute("id", `show-scene-${currentScene}`);
+
+    if (enterNewScene) return;
+    playAnimation();
   }
+  // scrollLoop
+
+  function playAnimation() {
+    const objs = info[currentScene].objs;
+    const values = info[currentScene].values;
+    const currentYOffset = yOffset - prevScrollHeight;
+    const scrollHeight = info[currentScene].scrollHeight;
+    const scrollRatio = currentYOffset / scrollHeight;
+
+    switch (currentScene) {
+      case 0:
+        if (scrollRatio <= 0.22) {
+          // in
+          objs.messageA.style.opacity = calcValues(values.messageA_opacity_in, currentYOffset);;
+          objs.messageA.style.transform = `translate3d(0, ${calcValues(values.messageA_translateY_in, currentYOffset)}%, 0)`;
+        } else {
+          // out
+          objs.messageA.style.opacity = calcValues(values.messageA_opacity_out, currentYOffset);
+          objs.messageA.style.transform = `translate3d(0, ${calcValues(values.messageA_translateY_out, currentYOffset)}%, 0)`;
+        }
+
+        if (scrollRatio <= 0.42) {
+          // in
+          objs.messageB.style.opacity = calcValues(values.messageB_opacity_in, currentYOffset);;
+          objs.messageB.style.transform = `translate3d(0, ${calcValues(values.messageB_translateY_in, currentYOffset)}%, 0)`;
+        } else {
+          // out
+          objs.messageB.style.opacity = calcValues(values.messageB_opacity_out, currentYOffset);
+          objs.messageB.style.transform = `translate3d(0, ${calcValues(values.messageB_translateY_out, currentYOffset)}%, 0)`;
+        }
+
+        if (scrollRatio <= 0.62) {
+          // in
+          objs.messageC.style.opacity = calcValues(values.messageC_opacity_in, currentYOffset);;
+          objs.messageC.style.transform = `translate3d(0, ${calcValues(values.messageC_translateY_in, currentYOffset)}%, 0)`;
+        } else {
+          // out
+          objs.messageC.style.opacity = calcValues(values.messageC_opacity_out, currentYOffset);
+          objs.messageC.style.transform = `translate3d(0, ${calcValues(values.messageC_translateY_out, currentYOffset)}%, 0)`;
+        }
+        
+        break;
+      
+      case 1:
+        break;
+      
+      case 2:
+        break;
+    }
+  }
+  // palyAnimation
+
+  function calcValues(values, currentYOffset) {
+    let rv;
+    const scrollHeight = info[currentScene].scrollHeight;
+    const scrollRatio = currentYOffset / scrollHeight;
+
+    if (values.length === 3) {
+      const partScrollStart = values[2].start * scrollHeight;
+      const partScrollEnd = values[2].end * scrollHeight;
+      const partScrollHeight = partScrollEnd - partScrollStart;
+
+      if (currentYOffset >= partScrollStart && currentYOffset <= partScrollEnd) {
+        rv = (currentYOffset - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+      } else if (currentYOffset < partScrollStart) {
+        rv = values[0];
+      } else if (currentYOffset > partScrollEnd) {
+        rv = values[1];
+      }
+      
+    } else {
+      rv = scrollRatio * (values[1] - values[0]) + values[0];
+    }
+    
+    return rv;
+  }
+
+  window.addEventListener("load", setLayout);
+  window.addEventListener("resize", setLayout);
 
   window.addEventListener("scroll", () => {
     yOffset = window.pageYOffset;
     scrollLoop();
-  })
-  window.addEventListener("resize", setLayout());
+  });
+  
   setLayout();
 })();
