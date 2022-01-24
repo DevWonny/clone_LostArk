@@ -21,8 +21,7 @@
       },
       values: {
         videoImageCount: 480,
-        imageSequence: 479,
-        canvas_opacity: [1, 0, { start: 0.9, end: 1 }],
+        imageSequence: [0, 479],
         messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
         messageB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
         messageC_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
@@ -72,6 +71,16 @@
     }
   ];
   // info
+
+  function setCanvasImages() {
+    let imgElem;
+    for (let i = 0; i < info[0].values.videoImageCount; i++){
+      imgElem = new Image();
+      imgElem.src = `../video/video_${1 + i}.jpg`;
+      info[0].objs.videoImages.push(imgElem);
+    }
+  }
+  setCanvasImages();
 
   function setLayout() {
     for (let i = 0; i < info.length; i++){
@@ -130,6 +139,9 @@
 
     switch (currentScene) {
       case 0:
+        let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+
         if (scrollRatio <= 0.22) {
           // in
           objs.messageA.style.opacity = calcValues(values.messageA_opacity_in, currentYOffset);;
@@ -196,13 +208,15 @@
     return rv;
   }
 
-  window.addEventListener("load", setLayout);
-  window.addEventListener("resize", setLayout);
+  window.addEventListener("load", () => {
+    setLayout();
+    info[0].objs.context.drawImage(info[0].objs.videoImages[0], 0, 0);
+  });
 
   window.addEventListener("scroll", () => {
     yOffset = window.pageYOffset;
     scrollLoop();
   });
-  
-  setLayout();
+
+  window.addEventListener("resize", setLayout);
 })();

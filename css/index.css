@@ -28,6 +28,7 @@ a{
 
 .top-header, .bot-header{
   background-color : #212227;
+  z-index: 9;
 }
 .top-header{
   width : 100%;
@@ -108,13 +109,16 @@ a{
 }
 .sticky-elem{
   position: fixed;
-  top : 200px;
   right : 0;
   display: none;
 }
 
 #show-scroll-section-0 #scroll-section-0 .sticky-elem{
   display: block;
+}
+.sticky-elem-canvas{
+  top : 0;
+  background-color: #ccc;
 }
 /* scroll-section-0 */
 
