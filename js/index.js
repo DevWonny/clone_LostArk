@@ -354,6 +354,7 @@
   }
 
   window.addEventListener("load", () => {
+    document.body.classList.remove('before-load');
     setLayout();
     info[0].objs.context.drawImage(info[0].objs.videoImages[0], 0, 0);
   });
